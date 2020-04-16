@@ -1,0 +1,57 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+
+.col1 td {
+    height: 50px;
+    width: 80px;
+    text-align: center;
+}
+
+table {
+    text-align: center;
+}
+
+/*canvas {*/
+/*    position: relative;*/
+/*    transition-duration: 1s;*/
+/*    animation: appear 1s 0s ease-in forwards;*/
+/*}*/
+
+label {
+    padding: 10px;
+}
+
+th.header {
+    background: #7ea0f0;
+    font-size: 26px;
+    font-family: 'Brush Script Std';
+    font-weight: 100;
+    color: #000000;
+    padding: 1.3%;
+
+}
+
+tr.text {
+    background: #d1e8ff;
+    font-size: 20px;
+    padding-top: 5px;
+    text-align: center;
+    font-family: 'Andale Mono';
+}
+
+input:hover {
+    background: #d3d3d3;
+}
+
+/*@keyframes appear {*/
+/*    from {*/
+/*        left: -100%;*/
+/*    }*/
+/*    to {*/
+/*        left: 0;*/
+/*    }*/
+/*}*/
