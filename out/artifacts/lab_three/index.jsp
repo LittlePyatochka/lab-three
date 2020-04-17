@@ -38,21 +38,22 @@
                 <table class="col1">
                     <tr>
                         <td><label for="Function">Function</label></td>
-                        <td><select class="custom-select" name="Function" id="Function">
-                            <option selected="Function" value="square">x^2-3</option>
+                        <td><select class="custom-select" name="Function" id="Function" >
+                            <option selected="Function" value="square">(x^2)-3</option>
                             <option value="cube">x^3-4</option>
                             <option value="sin">sin(x)</option>
                             <option value="cos">cos(x)</option>
                             <option value="ln">ln(x)</option>
                         </select></td>
                     </tr>
+
                     <tr>
-                        <td><label for="Method">Method</label></td>
-                        <td><select class="custom-select" name="Method" id="Method">
-                            <option selected="Method" value="Newton">Newton</option>
-                            <option value="SimpleIteration">Simple iteration</option>
-                        </select></td>
-                    </tr>
+                    <td><label for="Method">Method</label></td>
+                    <td><select class="custom-select" name="Method" id="Method" >
+                        <option selected="Method" value="Newton">Newton</option>
+                        <option value="Simple_iteration">Simple iteration</option>
+                    </select></td>
+                </tr>
 
                     <tr>
                         <td><label for="LeftLimit">Left limit</label></td>
@@ -75,9 +76,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <button type='submit' id="submit-btn" class="btn btn-outline-success" name="submit"
-                                    disabled="true">Submit
-                            </button>
+                            <button type='submit' id="submit-btn" class="btn btn-outline-success" name="submit" disabled="true">Submit</button>
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/index.jsp?clear=">
@@ -85,7 +84,7 @@
                             </a>
                         </td>
                         <td>
-                <span id="error-message">
+                <span id="error-message" >
                   <!-- Error -->
                 </span>
                         </td>

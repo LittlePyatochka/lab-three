@@ -7,15 +7,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ControllerServlet extends HttpServlet {
-    private String X;
-    private String Y;
-    private String R;
+    private String left;
+    private String right;
+    private String accuracy;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Y = req.getParameter("Y");
-        R = req.getParameter("R");
-        X = req.getParameter("X");
-        if((X!=null)&&(Y!=null)&&(R!=null)) {
+        left = req.getParameter("LeftLimit");
+        accuracy = req.getParameter("Accuracy");
+        right = req.getParameter("RightLimit");
+
+        if((left!=null)&&(right!=null)&&(accuracy!=null)) {
             req.getRequestDispatcher("check").forward(req, resp);
         } else req.getRequestDispatcher("/index.jsp").forward(req,resp);
     }

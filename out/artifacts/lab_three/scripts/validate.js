@@ -22,3 +22,14 @@ function valid(element) {
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && !isNaN(n - 0)
 }
+
+function get_Method() {
+    let rad = document.getElementsByName('Method');
+    let method;
+    rad.forEach(function (radion) {
+        if (radion.checked) {
+            method = radion.value;
+        }
+    });
+    return method;
+}

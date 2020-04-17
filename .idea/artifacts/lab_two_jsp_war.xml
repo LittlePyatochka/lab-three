@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="lab-two-jsp:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/lab_two_jsp_war</output-path>
+    <root id="archive" name="lab-two-jsp_war.war">
+      <element id="artifact" artifact-name="lab-three" />
+    </root>
+  </artifact>
+</component>
