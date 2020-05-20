@@ -24,6 +24,7 @@ public class ControllerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        //super.doPost(req, resp);
+        req.getRequestDispatcher("check").forward(req, resp);
     }
 }

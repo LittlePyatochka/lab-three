@@ -4,109 +4,79 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public class AreaCheckServlet extends HttpServlet {
-    private String submit;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        double accuracy;
-        double leftLimit;
-        double rightLimit;
-        String method;
-        String function;
-        String derivative;
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        double accuracy, leftLimit, rightLimit;
+        boolean convergeNewton, convergeSimple;
+        String function, derivative;
         NumericalMethod calculation;
-        double result;
-        double[] graph;
+        double[] resultNewton = new  double[2];
+        double[] resultSimple = new double[2];
 
-        accuracy = Double.parseDouble(req.getParameter("Accuracy"));
-        leftLimit = Double.parseDouble(req.getParameter("LeftLimit"));
-        rightLimit = Double.parseDouble(req.getParameter("RightLimit"));
-        function = req.getParameter("Function");
+        accuracy = Double.parseDouble(request.getParameter("Accuracy"));
+        leftLimit = Double.parseDouble(request.getParameter("LeftLimit"));
+        rightLimit = Double.parseDouble(request.getParameter("RightLimit"));
+        function = request.getParameter("Function");
         derivative = "derivative_".concat(function);
-        method = req.getParameter("Method");
-
+        HttpSession session = request.getSession();
 
         calculation = new NumericalMethod(leftLimit, rightLimit, accuracy, function, derivative);
-
-
-        switch (method) {
-            case "Newton":
-                try {
-                    result = calculation.newton();
-                } catch (InvocationTargetException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "SimpleInteration":
-                result = calculation.simpleIteration();
-                break;
-        }
-
         try {
-            graph = calculation.dotsForGraph();
+            convergeNewton = calculation.isСonvergeForNewton();
+            convergeSimple = calculation.isConvergeForSimpleIteration();
+            session.setAttribute("convergeNewton",convergeNewton);
+            session.setAttribute("convergeSimple",convergeSimple);
+            if (convergeNewton){
+                session.setAttribute("resultNewton", calculation.newton());
+                session.setAttribute("iterationNewton", calculation.getIterationNewton());
+            }
+            if (convergeSimple){
+                session.setAttribute("resultSimple", calculation.simpleIteration());
+                session.setAttribute("iterationSimple", calculation.getIterationSimple());
+            }
+            session.setAttribute("chart", calculation.getChartData());
+
         } catch (InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
-
-//        double x;
-//        double y;
-//        int r;
-//        HttpSession session = req.getSession();
-//        ArrayResult table = (ArrayResult) session.getAttribute("result");
-//        if (table == null || req.getParameter("clear") != null) {
-//            table = new ArrayResult();
-//        }
-//        //Result result;
-//
-//        submit = req.getParameter("submit");
-//
-//        try {
-//            y = Double.parseDouble(req.getParameter("Y"));
-//            r = Integer.parseInt(req.getParameter("R"));
-//            x = Double.parseDouble(req.getParameter("X"));
-//            System.out.println("check = " + check(x, y, r));
-//            result = new Result(x, y, r, check(x, y, (double) r));
-//
-//            if (submit != null && !checkData((int) x, y, r)) {
-//                result.setIsCorrect(false);
-//            }
-//        } catch (NumberFormatException e) {
-//            result = new Result();
-//        }
-//
-//        table.addString(result);
-//        session.setAttribute("result", table);
-//
-//        if (submit != null) {
-//            req.getRequestDispatcher("/index.jsp").forward(req, resp);
-//        } else {
-//            resp.getWriter().write(table.toHtmlString());
-//        }
-
-
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        double accuracy;
+        double approximation1 = 0,approximation2 = 0;
+        double[] result;
+        double [][] chart;
+        String function1, function2;
+        NumericalMethodForSystem calculation;
+
+        accuracy = Double.parseDouble(request.getParameter("Accuracy"));
+        function1 = request.getParameter("Function1");
+        function2 = request.getParameter("Function2");
+        approximation1 = Double.parseDouble(request.getParameter("approximation1"));
+        approximation2 = Double.parseDouble(request.getParameter("approximation2"));
+        HttpSession session = request.getSession();
+
+        calculation = new NumericalMethodForSystem(accuracy, function1, function2, approximation1, approximation2);
+        try {
+            chart = calculation.getChartData();
+            result = calculation.simpleIteration();
+            if(result != null){
+               chart = calculation.getChartData();
+            }
+            session.setAttribute("chartSystem", chart);
+            session.setAttribute("result", result);
+            session.setAttribute("iteration", calculation.getIteration());
+
+        }catch (Exception e){ e.printStackTrace(); }
+
+        request.getRequestDispatcher("/System.jsp").forward(request, response);
     }
-
-//    private boolean checkData(int x, double y, int r) {
-//        return ((x == -5 || x == -4 || x == -3 || x == -2 || x == -1 || x == 0 || x == 1 || x == 2 || x == 3) &&
-//                (y >= -3 && y <= 3) && (r == 1 || r == 2 || r == 3 || r == 4 || r == 5));
-//    }
-//
-//    private boolean check(double x, double y, double r) {
-//        System.out.println(x + " " + y + " " + r);
-//        return (((x <= 0) && (x >= -r / 2) && (y >= 0) && (y <= (x + r / 2))) ||
-//                ((x >= 0) && (x <= r / 2) && (y >= 0) && (y <= r)) ||
-//                ((x >= 0) && (x <= r / 2) && (y <= 0) && ((x * x + y * y) <= r * r / 4)));
-//    }
-
-
 }

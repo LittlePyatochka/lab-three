@@ -1,6 +1,6 @@
 function valid(element) {
     const submit_btn = document.getElementById("submit-btn");
-    const errmsg = document.getElementById("error-message");
+    // const errmsg = document.getElementById("error-message");
     const left_field = document.getElementById("LeftLimit");
     const right_field = document.getElementById("RightLimit");
     const accuracy_field = document.getElementById("Accuracy");
@@ -8,14 +8,14 @@ function valid(element) {
     var left = left_field.value.replace(/,/, '.');
     var right = right_field.value.replace(/,/, '.');
     var accuracy = accuracy_field.value.replace(/,/, '.');
-    var isValid = isNumber(accuracy) && isNumber(right) && isNumber(left) && (accuracy > 0);
+    var isValid = isNumber(accuracy) && isNumber(right) && isNumber(left) && (accuracy > 0) && (accuracy < 1);
 
     if (!isValid) {
         submit_btn.disabled = true;
-        errmsg.textContent = "Error";
+        //errmsg.textContent = "Error";
     } else {
         submit_btn.disabled = false;
-        errmsg.textContent = "";
+       // errmsg.textContent = "";
     }
 }
 
